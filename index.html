@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descarga de Documento - UTFSM</title>
+    
+    <!-- Script oficial de Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
+    <style>
+        /* Estilos basados en los colores institucionales de la USM */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-top: 6px solid #002855; /* Azul Institucional USM */
+        }
+        h2 {
+            color: #002855;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            color: #002855;
+        }
+        input[type="text"], 
+        input[type="number"], 
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        input:focus, select:focus {
+            border-color: #F2A900;
+            outline: none;
+        }
+        .captcha-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .btn-submit {
+            background-color: #F2A900; /* Amarillo/Dorado Institucional USM */
+            color: #002855;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-submit:hover {
+            background-color: #d99700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Universidad Técnica Federico Santa María</h2>
+        <p class="subtitle">Complete sus datos académicos para descargar el documento</p>
+        
+        <form id="formularioUSM">
+            <div class="form-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez González">
+            </div>
+
+            <div class="form-group">
+                <label for="rut">RUT</label>
+                <input type="text" id="rut" name="rut" required placeholder="Ej: 12.345.678-9">
+            </div>
+
+            <div class="form-group">
+                <label for="sede">Sede o Campus</label>
+                <select id="sede" name="sede" required>
+                    <option value="" disabled selected>Seleccione una opción...</option>
+                    <option value="Casa Central Valparaíso">Campus Casa Central Valparaíso</option>
+                    <option value="San Joaquín">Campus San Joaquín</option>
+                    <option value="Vitacura">Campus Vitacura</option>
+                    <option value="Viña del Mar">Sede Viña del Mar</option>
+                    <option value="Concepción">Sede Concepción</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="carrera">Carrera</label>
+                <input type="text" id="carrera" name="carrera" required placeholder="Ej: Ingeniería Civil Informática">
+            </div>
+
+            <div class="form-group">
+                <label for="egreso">Año de Egreso</label>
+                <input type="number" id="egreso" name="egreso" required min="1931" max="2030" placeholder="Ej: 2022">
+            </div>
+
+            <div class="form-group">
+                <label for="modalidad">Modalidad de Estudios</label>
+                <select id="modalidad" name="modalidad" required>
+                    <option value="" disabled selected>Seleccione una opción...</option>
+                    <option value="Diurna">Diurna</option>
+                    <option value="Vespertina">Vespertina</option>
+                    <option value="Online">Online</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="nota">Nota Final</label>
+                <input type="number" id="nota" name="nota" required step="0.1" min="1.0" max="100.0" placeholder="Ej: 85.5 o 6.5">
+            </div>
+
+            <div class="captcha-container">
+                <!-- IMPORTANTE: Reemplaza TU_CLAVE_DE_SITIO_AQUI con tu Site Key de Google reCAPTCHA -->
+                <div class="g-recaptcha" data-sitekey="TU_CLAVE_DE_SITIO_AQUI"></div>
+            </div>
+
+            <button type="submit" class="btn-submit">Validar y Descargar Documento</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('formularioUSM').addEventListener('submit', function(event) {
+            // Prevenir que la página se recargue al enviar el formulario
+            event.preventDefault(); 
+
+            // Obtener la respuesta del reCAPTCHA
+            var response = grecaptcha.getResponse();
+
+            // Validar si el usuario resolvió el captcha
+            if (response.length === 0) {
+                alert("Error: Por favor, resuelva el reCAPTCHA para verificar que no es un robot.");
+                return;
+            }
+
+            // Si el captcha es válido, simular la descarga
+            alert("Validación exitosa. Su documento comenzará a descargarse en breve.");
+            
+            // LÓGICA DE DESCARGA:
+            // Reemplaza 'ruta/al/documento_usm.pdf' con la URL real de tu archivo
+            const urlDocumento = 'ruta/al/documento_usm.pdf'; 
+            
+            const link = document.createElement('a');
+            link.href = urlDocumento;
+            link.download = 'Certificado_Academico_USM.pdf'; // Nombre con el que se guardará
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Opcional: Reiniciar el formulario y el captcha después de descargar
+            this.reset();
+            grecaptcha.reset();
+        });
+    </script>
+</body>
+</html>
