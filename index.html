@@ -226,16 +226,16 @@
                 <!-- Contenedor del reCAPTCHA dentro del Cuadrado -->
                 <div class="captcha-container">
                     <div class="captcha-box">
-                        <!-- Reemplaza TU_CLAVE_DE_SITIO_AQUI con tu Site Key de Google reCAPTCHA -->
-                        <div class="g-recaptcha" data-sitekey="TU_CLAVE_DE_SITIO_AQUI"></div>
+                        <!-- CLAVE DE PRUEBA DE GOOGLE AGREGADA AQUÍ -->
+                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
                     </div>
                 </div>
 
-                <!-- Botón de Envío (Cuadro Amarillo) -->
+                <!-- Botón de Envío -->
                 <button type="submit" class="btn-submit">Validar y Descargar Documento</button>
             </form>
 
-            <!-- Información de la Universidad debajo del botón -->
+            <!-- Información de la Universidad -->
             <div class="university-info">
                 <strong>Universidad Técnica Federico Santa María</strong><br>
                 Sede Casa Central: Avenida España 1680, Valparaíso, Chile<br>
@@ -245,35 +245,31 @@
         </div>
     </div>
 
-    <!-- Imagen agregada al final que va de esquina a esquina -->
+    <!-- Imagen al final -->
     <img src="ima.png" alt="Imagen Inferior" class="footer-image">
 
     <script>
         document.getElementById('formularioUSM').addEventListener('submit', function(event) {
-            // Evita que la página se recargue
             event.preventDefault(); 
 
-            // Verifica si el captcha fue completado
             var response = grecaptcha.getResponse();
 
             if (response.length === 0) {
                 alert("Error: Por favor, resuelva el reCAPTCHA para verificar que no es un robot.");
-                return; // Detiene el proceso si no está marcado
+                return; 
             }
 
-            // Si está todo correcto, procede a descargar caca.pdf
+            // Descarga automática de caca.pdf
             const urlDocumento = 'caca.pdf'; 
             
             const link = document.createElement('a');
             link.href = urlDocumento;
-            link.download = 'caca.pdf'; // El archivo se descargará con este nombre
+            link.download = 'caca.pdf'; 
             
-            // Simula el clic de descarga
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
 
-            // Reinicia el captcha para futuros intentos
             grecaptcha.reset();
         });
     </script>
