@@ -14,17 +14,17 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f6f8;
             color: #333;
-            margin: 0; /* Margen 0 fundamental para que la imagen toque los bordes */
+            margin: 0; 
             padding: 0;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Permite empujar la imagen al final de la pantalla */
+            min-height: 100vh; 
         }
 
-        /* Contenedor que envuelve el formulario para mantener los espacios */
+        /* Contenedor que envuelve el formulario */
         .content-wrapper {
             padding: 40px 20px;
-            flex: 1; /* Hace que este contenedor crezca y empuje la imagen abajo */
+            flex: 1; 
         }
 
         .container {
@@ -92,11 +92,23 @@
             border-color: #F2A900;
             outline: none;
         }
+        
+        /* --- ESTILOS PARA EL CUADRADO DEL RECAPTCHA --- */
         .captcha-container {
             margin: 30px 0;
             display: flex;
             justify-content: center;
         }
+        .captcha-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: inline-block; 
+        }
+
+        /* --- BOTÓN AMARILLO --- */
         .btn-submit {
             background-color: #dfa03a;
             color: #333;
@@ -113,7 +125,30 @@
             background-color: #c78d30;
         }
 
-        /* --- ESTILOS DE LA IMAGEN INFERIOR (Esquina a esquina) --- */
+        /* --- INFORMACIÓN DE LA UNIVERSIDAD --- */
+        .university-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea; 
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .university-info strong {
+            color: #002855;
+            font-size: 14px;
+        }
+        .university-info a {
+            color: #004b87;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .university-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- ESTILOS DE LA IMAGEN INFERIOR --- */
         .footer-image {
             width: 100%;
             display: block;
@@ -124,10 +159,9 @@
 </head>
 <body>
 
-    <!-- Contenedor del formulario -->
     <div class="content-wrapper">
         <div class="container">
-            <!-- Contenedor del Logo -->
+            <!-- Contenedor del Logo Superior -->
             <div class="logo-container">
                 <img src="logof.jpg" alt="Logo Universidad Técnica Federico Santa María">
             </div>
@@ -144,7 +178,6 @@
                     </div>
                     <div class="form-group">
                         <label for="rut">RUT</label>
-                        <!-- RUT agregado aquí -->
                         <input type="text" id="rut" name="rut" value="12.865.440-2" required>
                     </div>
                 </div>
@@ -190,15 +223,25 @@
                     </div>
                 </div>
 
-                <!-- Contenedor del reCAPTCHA -->
+                <!-- Contenedor del reCAPTCHA dentro del Cuadrado -->
                 <div class="captcha-container">
-                    <!-- Reemplaza TU_CLAVE_DE_SITIO_AQUI con tu Site Key de Google reCAPTCHA -->
-                    <div class="g-recaptcha" data-sitekey="TU_CLAVE_DE_SITIO_AQUI"></div>
+                    <div class="captcha-box">
+                        <!-- Reemplaza TU_CLAVE_DE_SITIO_AQUI con tu Site Key de Google reCAPTCHA -->
+                        <div class="g-recaptcha" data-sitekey="TU_CLAVE_DE_SITIO_AQUI"></div>
+                    </div>
                 </div>
 
-                <!-- Botón de Envío -->
+                <!-- Botón de Envío (Cuadro Amarillo) -->
                 <button type="submit" class="btn-submit">Validar y Descargar Documento</button>
             </form>
+
+            <!-- Información de la Universidad debajo del botón -->
+            <div class="university-info">
+                <strong>Universidad Técnica Federico Santa María</strong><br>
+                Sede Casa Central: Avenida España 1680, Valparaíso, Chile<br>
+                Teléfono: +56 32 265 4000 | Web: <a href="https://usm.cl" target="_blank">www.usm.cl</a>
+            </div>
+
         </div>
     </div>
 
@@ -207,26 +250,30 @@
 
     <script>
         document.getElementById('formularioUSM').addEventListener('submit', function(event) {
+            // Evita que la página se recargue
             event.preventDefault(); 
 
+            // Verifica si el captcha fue completado
             var response = grecaptcha.getResponse();
 
             if (response.length === 0) {
                 alert("Error: Por favor, resuelva el reCAPTCHA para verificar que no es un robot.");
-                return;
+                return; // Detiene el proceso si no está marcado
             }
 
-            alert("Validación exitosa. Su documento comenzará a descargarse en breve.");
-            
-            const urlDocumento = 'ruta/al/documento_usm.pdf'; 
+            // Si está todo correcto, procede a descargar caca.pdf
+            const urlDocumento = 'caca.pdf'; 
             
             const link = document.createElement('a');
             link.href = urlDocumento;
-            link.download = 'Certificado_Academico_USM.pdf';
+            link.download = 'caca.pdf'; // El archivo se descargará con este nombre
+            
+            // Simula el clic de descarga
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
 
+            // Reinicia el captcha para futuros intentos
             grecaptcha.reset();
         });
     </script>
