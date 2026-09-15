@@ -9,14 +9,24 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
     <style>
-        /* Estilos basados en los colores institucionales de la USM */
+        /* Estilos generales */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f6f8;
             color: #333;
-            margin: 0;
-            padding: 40px 20px;
+            margin: 0; /* Margen 0 fundamental para que la imagen toque los bordes */
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Permite empujar la imagen al final de la pantalla */
         }
+
+        /* Contenedor que envuelve el formulario para mantener los espacios */
+        .content-wrapper {
+            padding: 40px 20px;
+            flex: 1; /* Hace que este contenedor crezca y empuje la imagen abajo */
+        }
+
         .container {
             max-width: 700px; 
             margin: 0 auto;
@@ -27,7 +37,7 @@
             border-top: 6px solid #002855;
         }
         
-        /* --- ESTILOS DEL LOGO --- */
+        /* --- ESTILOS DEL LOGO SUPERIOR --- */
         .logo-container {
             text-align: center;
             margin-bottom: 20px;
@@ -102,89 +112,98 @@
         .btn-submit:hover {
             background-color: #c78d30;
         }
+
+        /* --- ESTILOS DE LA IMAGEN INFERIOR (Esquina a esquina) --- */
+        .footer-image {
+            width: 100%;
+            display: block;
+            height: auto;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Contenedor del Logo -->
-        <div class="logo-container">
-            <img src="logof.jpg" alt="Logo Universidad Técnica Federico Santa María">
-        </div>
-        
-        <h2>Universidad Técnica Federico Santa María</h2>
-        
-        <form id="formularioUSM">
+    <!-- Contenedor del formulario -->
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- Contenedor del Logo -->
+            <div class="logo-container">
+                <img src="logof.jpg" alt="Logo Universidad Técnica Federico Santa María">
+            </div>
             
-            <!-- Fila 1: Nombre y RUT -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="nombre">Nombre Completo</label>
-                    <!-- Campo prellenado con el nombre -->
-                    <input type="text" id="nombre" name="nombre" value="Luis Andres Fuenzalida Flores" required>
+            <h2>Universidad Técnica Federico Santa María</h2>
+            
+            <form id="formularioUSM">
+                
+                <!-- Fila 1: Nombre y RUT -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" name="nombre" value="Luis Andres Fuenzalida Flores" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rut">RUT</label>
+                        <!-- RUT agregado aquí -->
+                        <input type="text" id="rut" name="rut" value="12.865.440-2" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="rut">RUT</label>
-                    <input type="text" id="rut" name="rut" required>
-                </div>
-            </div>
 
-            <!-- Fila 2: Sede y Carrera -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="sede">Sede</label>
-                    <select id="sede" name="sede" required>
-                        <option value="" disabled>Seleccione...</option>
-                        <!-- Sede Valparaíso seleccionada por defecto -->
-                        <option value="Valparaíso" selected>Valparaíso</option>
-                        <option value="Federico USM">Federico USM (Casa Central)</option>
-                        <option value="San Joaquín">San Joaquín</option>
-                        <option value="Vitacura">Vitacura</option>
-                        <option value="Viña del Mar">Viña del Mar</option>
-                        <option value="Concepción">Concepción</option>
-                    </select>
+                <!-- Fila 2: Sede y Carrera -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sede">Sede</label>
+                        <select id="sede" name="sede" required>
+                            <option value="" disabled>Seleccione...</option>
+                            <option value="Valparaíso" selected>Valparaíso</option>
+                            <option value="Federico USM">Federico USM (Casa Central)</option>
+                            <option value="San Joaquín">San Joaquín</option>
+                            <option value="Vitacura">Vitacura</option>
+                            <option value="Viña del Mar">Viña del Mar</option>
+                            <option value="Concepción">Concepción</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="carrera">Carrera</label>
+                        <input type="text" id="carrera" name="carrera" value="TÉCNICO EN ELECTRICIDAD" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="carrera">Carrera</label>
-                    <!-- Campo prellenado con la carrera -->
-                    <input type="text" id="carrera" name="carrera" value="TÉCNICO EN ELECTRICIDAD" required>
-                </div>
-            </div>
 
-            <!-- Fila 3: Año, Modalidad y Nota -->
-            <div class="form-row-3">
-                <div class="form-group">
-                    <label for="egreso">Año de egreso</label>
-                    <!-- Campo prellenado con la fecha (cambiado a tipo texto para aceptar el formato largo) -->
-                    <input type="text" id="egreso" name="egreso" value="22 de febrero de 2022" required>
+                <!-- Fila 3: Año, Modalidad y Nota -->
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="egreso">Año de egreso</label>
+                        <input type="text" id="egreso" name="egreso" value="22 de febrero de 2022" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalidad">Modalidad de estudios</label>
+                        <select id="modalidad" name="modalidad" required>
+                            <option value="" disabled>Modalidad...</option>
+                            <option value="Diurna" selected>Diurna</option>
+                            <option value="Vespertina">Vespertina</option>
+                            <option value="Online">Online</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="nota">Nota final</label>
+                        <input type="text" id="nota" name="nota" value="6,1" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="modalidad">Modalidad de estudios</label>
-                    <select id="modalidad" name="modalidad" required>
-                        <option value="" disabled>Modalidad...</option>
-                        <!-- Modalidad Diurna seleccionada por defecto -->
-                        <option value="Diurna" selected>Diurna</option>
-                        <option value="Vespertina">Vespertina</option>
-                        <option value="Online">Online</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="nota">Nota final</label>
-                    <!-- Campo prellenado con la nota (cambiado a tipo texto para aceptar la coma) -->
-                    <input type="text" id="nota" name="nota" value="6,1" required>
-                </div>
-            </div>
 
-            <!-- Contenedor del reCAPTCHA -->
-            <div class="captcha-container">
-                <!-- Reemplaza TU_CLAVE_DE_SITIO_AQUI con tu Site Key de Google reCAPTCHA -->
-                <div class="g-recaptcha" data-sitekey="TU_CLAVE_DE_SITIO_AQUI"></div>
-            </div>
+                <!-- Contenedor del reCAPTCHA -->
+                <div class="captcha-container">
+                    <!-- Reemplaza TU_CLAVE_DE_SITIO_AQUI con tu Site Key de Google reCAPTCHA -->
+                    <div class="g-recaptcha" data-sitekey="TU_CLAVE_DE_SITIO_AQUI"></div>
+                </div>
 
-            <!-- Botón de Envío -->
-            <button type="submit" class="btn-submit">Validar y Descargar Documento</button>
-        </form>
+                <!-- Botón de Envío -->
+                <button type="submit" class="btn-submit">Validar y Descargar Documento</button>
+            </form>
+        </div>
     </div>
+
+    <!-- Imagen agregada al final que va de esquina a esquina -->
+    <img src="ima.png" alt="Imagen Inferior" class="footer-image">
 
     <script>
         document.getElementById('formularioUSM').addEventListener('submit', function(event) {
@@ -199,7 +218,6 @@
 
             alert("Validación exitosa. Su documento comenzará a descargarse en breve.");
             
-            // Reemplazar con la ruta de tu documento real
             const urlDocumento = 'ruta/al/documento_usm.pdf'; 
             
             const link = document.createElement('a');
@@ -209,11 +227,8 @@
             link.click();
             document.body.removeChild(link);
 
-            // Se comenta el reseteo del formulario para que no se borren los datos prellenados tras enviar
-            // this.reset();
             grecaptcha.reset();
         });
     </script>
 </body>
 </html>
-
