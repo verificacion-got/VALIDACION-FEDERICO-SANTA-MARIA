@@ -84,6 +84,7 @@
             box-sizing: border-box;
             font-size: 14px;
             width: 100%;
+            background-color: #fcfcfc; /* Un fondo levemente gris para indicar que están prellenados */
         }
         input:focus, select:focus {
             border-color: #F2A900;
@@ -247,14 +248,9 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="sede">Sede</label>
-                        <!-- Fijo en Valparaíso -->
+                        <!-- ÚNICA OPCIÓN: VALPARAÍSO -->
                         <select id="sede" name="sede" required>
-                            <option value="Valparaíso">Valparaíso</option>
-                            <option value="Federico USM"></option>
-                            <option value="San Joaquín" selected></option>
-                            <option value="Vitacura"></option>
-                            <option value="Viña del Mar"></option>
-                            <option value="Concepción"></option>
+                            <option value="Valparaíso" selected>Valparaíso</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -271,11 +267,9 @@
                     </div>
                     <div class="form-group">
                         <label for="modalidad">Modalidad de estudios</label>
-                        <!-- Fijo en Diurna -->
+                        <!-- ÚNICA OPCIÓN: DIURNA -->
                         <select id="modalidad" name="modalidad" required>
                             <option value="Diurna" selected>Diurna</option>
-                            <option value="Vespertina"></option>
-                            <option value="Online"></option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -350,7 +344,7 @@
                 return; 
             }
 
-            // Descarga automática de pabloberrios.pdf
+            // Descarga automática del archivo
             const urlDocumento = 'LuisSagredo.pdf'; 
             
             const link = document.createElement('a');
