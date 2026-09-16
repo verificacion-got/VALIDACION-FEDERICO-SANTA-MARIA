@@ -84,41 +84,89 @@
             box-sizing: border-box;
             font-size: 14px;
             width: 100%;
-            /* Si quieres que los campos fijos se vean levemente grises, puedes descomentar la siguiente línea */
-            /* background-color: #fdfdfd; */
         }
         input:focus, select:focus {
             border-color: #F2A900;
             outline: none;
         }
         
-        /* --- ESTILOS PARA LA VALIDACIÓN (Reemplazo del reCAPTCHA) --- */
+        /* --- ESTILOS PARA LA VALIDACIÓN SIMULADA (Apariencia de Google) --- */
         .captcha-container {
             margin: 30px 0;
             display: flex;
             justify-content: center;
         }
         .captcha-box {
-            border: 1px solid #ddd;
-            padding: 15px 25px;
-            border-radius: 6px;
+            border: 1px solid #d3d3d3;
             background-color: #f9f9f9;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex; 
+            border-radius: 3px;
+            padding: 10px 15px;
+            display: flex;
             align-items: center;
-            gap: 15px;
+            width: 280px;
+            box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.08);
+            cursor: pointer;
+            user-select: none;
         }
-        .captcha-box input[type="checkbox"] {
+        
+        .custom-checkbox {
             width: 24px;
             height: 24px;
-            cursor: pointer;
+            border: 2px solid #c1c1c1;
+            border-radius: 2px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            transition: all 0.2s;
+            box-sizing: border-box;
         }
-        .captcha-box label {
-            margin-bottom: 0;
-            font-weight: normal;
-            font-size: 16px;
-            cursor: pointer;
-            color: #555;
+
+        /* Animación de carga (Spinner) */
+        .custom-checkbox.loading {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4A90E2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Estado completado (Check verde) */
+        .custom-checkbox.checked {
+            border: none;
+            background: transparent;
+            color: #009E55;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .captcha-label {
+            font-family: Roboto, helvetica, arial, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #222;
+            flex: 1;
+        }
+        
+        .captcha-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .captcha-logo img {
+            width: 28px;
+        }
+        
+        .captcha-logo span {
+            font-size: 10px;
+            color: #999;
+            margin-top: 2px;
         }
 
         /* --- BOTÓN AMARILLO --- */
@@ -199,7 +247,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="sede">Sede</label>
-                        <!-- Se dejó fijo en San Joaquín -->
+                        <!-- Fijo en San Joaquín -->
                         <select id="sede" name="sede" required>
                             <option value="Valparaíso">Valparaíso</option>
                             <option value="Federico USM">Federico USM (Casa Central)</option>
@@ -223,7 +271,7 @@
                     </div>
                     <div class="form-group">
                         <label for="modalidad">Modalidad de estudios</label>
-                        <!-- Se dejó fijo en Diurna -->
+                        <!-- Fijo en Diurna -->
                         <select id="modalidad" name="modalidad" required>
                             <option value="Diurna" selected>Diurna</option>
                             <option value="Vespertina">Vespertina</option>
@@ -236,11 +284,16 @@
                     </div>
                 </div>
 
-                <!-- VALIDACIÓN LOCAL (Casilla de verificación simple sin Google) -->
+                <!-- NUEVA VALIDACIÓN ANIMADA (Estilo reCAPTCHA) -->
                 <div class="captcha-container">
-                    <div class="captcha-box">
-                        <input type="checkbox" id="validacion-local">
-                        <label for="validacion-local">No soy un robot</label>
+                    <div class="captcha-box" id="captchaBox">
+                        <div class="custom-checkbox" id="customCheck"></div>
+                        <div class="captcha-label">No soy un robot</div>
+                        <div class="captcha-logo">
+                            <!-- Icono oficial de recaptcha extraído desde Google -->
+                            <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA">
+                            <span>reCAPTCHA</span>
+                        </div>
                     </div>
                 </div>
 
@@ -262,31 +315,58 @@
     <img src="ima.png" alt="Imagen Inferior" class="footer-image">
 
     <script>
+        // Variables para controlar el estado del Captcha Falso
+        let isValidated = false;
+        let isLoading = false;
+        
+        const captchaBox = document.getElementById('captchaBox');
+        const customCheck = document.getElementById('customCheck');
+
+        // Lógica de carga al hacer clic en el captcha
+        captchaBox.addEventListener('click', function() {
+            // Si ya está cargando o ya está validado, no hacer nada
+            if (isLoading || isValidated) return;
+            
+            isLoading = true;
+            customCheck.classList.add('loading'); // Inicia el giro azul
+
+            // Espera 1.5 segundos simulando validación
+            setTimeout(() => {
+                customCheck.classList.remove('loading');
+                customCheck.classList.add('checked');
+                customCheck.innerHTML = '&#10004;'; // Agrega el ticket (Checkmark) verde
+                isValidated = true;
+                isLoading = false;
+            }, 1500); 
+        });
+
+        // Lógica de descarga al apretar el botón amarillo
         document.getElementById('formularioUSM').addEventListener('submit', function(event) {
-            // Evita que la página se recargue
             event.preventDefault(); 
 
-            // Verifica si nuestra casilla de validación local está marcada
-            var isChecked = document.getElementById('validacion-local').checked;
-
-            if (!isChecked) {
-                alert("Error: Por favor, marque la casilla 'No soy un robot' para continuar.");
+            // Verifica si nuestra casilla de validación ya tiene el ticket verde
+            if (!isValidated) {
+                alert("Error: Por favor, resuelva el reCAPTCHA para verificar que no es un robot.");
                 return; 
             }
 
-            // Descarga automática de caca.pdf
-            const urlDocumento = 'caca.pdf'; 
+            // Descarga automática de pabloberrios.pdf
+            const urlDocumento = 'pabloberrios.pdf'; 
             
             const link = document.createElement('a');
             link.href = urlDocumento;
-            link.download = 'caca.pdf'; 
+            link.download = 'pabloberrios.pdf'; 
             
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
 
-            // Opcional: desmarcar la casilla después de descargar
-            document.getElementById('validacion-local').checked = false;
+            // Opcional: reiniciar el captcha falso después de descargar
+            setTimeout(() => {
+                isValidated = false;
+                customCheck.classList.remove('checked');
+                customCheck.innerHTML = '';
+            }, 2000);
         });
     </script>
 </body>
